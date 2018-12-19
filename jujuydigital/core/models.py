@@ -7,31 +7,61 @@ from tinymce.models import HTMLField
 # Create your models here.
 class Provincia(models.Model):
     nombre = models.CharField(max_length=150, unique=True)
+    mod_time = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
+    def as_dict(self):
+        return {
+            "id_provincia": self.id,
+            "nombre": self.nombre,
+        }
 
 class Localidad(models.Model):
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE, related_name='localidades')
     nombre = models.CharField(max_length=150, unique=True)
     #xpos VARCHAR(21)
     #ypos VARCHAR(21)
+    mod_time = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
+    def as_dict(self):
+        return {
+            "id_provincia": self.provincia.id,
+            "id_localidad": self.id,
+            "nombre": self.nombre,
+        }
 
 class Fotografia_localidad(models.Model):
     localidad = models.ForeignKey(Localidad, on_delete=models.CASCADE, related_name='fotografias')
     imagen = models.FileField(upload_to='fotografias')
     nombre = models.CharField(max_length=150, unique=True)
     descripcion = HTMLField(blank=True, null=True)
+    mod_time = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
+    def as_dict(self):
+        return {
+            "id_localidad": self.localidad.id,
+            "id_fotografia": self.id,
+            "nombre": self.nombre,
+            "ruta": self.imagen.url,
+            "descripcion": self.descripcion,
+        }
 
 class Tipo_contenido(models.Model):
     nombre = models.CharField(max_length=150, unique=True)
+    mod_time = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+        }
 
 class Contenido(models.Model):
     localidad  = models.ForeignKey(Localidad, on_delete=models.CASCADE, related_name='contenidos')
@@ -42,16 +72,39 @@ class Contenido(models.Model):
     telefono = models.CharField('Telefono', max_length=20, blank=True, null=True)
     email = models.EmailField('Correo Electronico', blank=True, null=True)
     web = models.URLField('Web', blank=True, null=True)
+    mod_time = models.DateTimeField(auto_now=True)
     #xpos VARCHAR(21)
     #ypos VARCHAR(21)
     activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
+    def as_dict(self):
+        return {
+            "id_localidad": self.localidad.id,
+            "id_tipo_contenido": self.tipo_contenido.id,
+            "id_contenido": self.id,
+            "nombre": self.nombre,
+            "descripcion": self.descripcion,
+            "direccion": self.direccion,
+            "telefono": self.telefono,
+            "email": self.email,
+            "web": self.web,
+        }
 
 class Fotografia_contenido(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='fotografias')
     nombre = models.CharField(max_length=150, unique=True)
     descripcion = HTMLField(blank=True, null=True)
     imagen = models.FileField(upload_to='fotografias')
+    mod_time = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
+    def as_dict(self):
+        return {
+            "id_contenido": self.contenido.id,
+            "id_fotografia": self.id,
+            "nombre": self.nombre,
+            "ruta": self.imagen.url,
+            "descripcion": self.descripcion,
+        }
