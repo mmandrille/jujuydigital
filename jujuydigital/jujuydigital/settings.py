@@ -25,7 +25,7 @@ SECRET_KEY = 'wf^0ya06d(l)5p#11q56$pp8zejq+63r3&i*%*+6)1mq_od$#='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'ws.jujuydigital.com.ar']
 
 
 # Application definition
