@@ -15,7 +15,7 @@ class Provincia(models.Model):
         return {
             "id_provincia": self.id,
             "nombre": self.nombre,
-            "mod_time": self.mod_time,
+            "mod_time": str(self.mod_time),
         }
 
 class Localidad(models.Model):
@@ -32,7 +32,7 @@ class Localidad(models.Model):
             "id_provincia": self.provincia.id,
             "id_localidad": self.id,
             "nombre": self.nombre,
-            "mod_time": self.mod_time,
+            "mod_time": str(self.mod_time),
         }
 
 class Fotografia_localidad(models.Model):
@@ -51,7 +51,7 @@ class Fotografia_localidad(models.Model):
             "nombre": self.nombre,
             "ruta": self.imagen.url,
             "descripcion": self.descripcion,
-            "mod_time": self.mod_time,
+            "mod_time": str(self.mod_time),
         }
 
 class Tipo_contenido(models.Model):
@@ -64,7 +64,7 @@ class Tipo_contenido(models.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "mod_time": self.mod_time,
+            "mod_time": str(self.mod_time),
         }
 
 class Contenido(models.Model):
@@ -93,7 +93,7 @@ class Contenido(models.Model):
             "telefono": self.telefono,
             "email": self.email,
             "web": self.web,
-            "mod_time": self.mod_time,
+            "mod_time": str(self.mod_time),
         }
 
 class Fotografia_contenido(models.Model):
@@ -112,5 +112,5 @@ class Fotografia_contenido(models.Model):
             "nombre": self.nombre,
             "ruta": self.imagen.url,
             "descripcion": self.descripcion,
-            "mod_time": self.mod_time,
+            "mod_time": str(self.mod_time),
         }
