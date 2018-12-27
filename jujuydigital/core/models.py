@@ -16,6 +16,7 @@ class Provincia(models.Model):
             "id_provincia": self.id,
             "nombre": self.nombre,
             "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
         }
 
 class Localidad(models.Model):
@@ -33,6 +34,7 @@ class Localidad(models.Model):
             "id_localidad": self.id,
             "nombre": self.nombre,
             "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
         }
 
 class Fotografia_localidad(models.Model):
@@ -52,6 +54,7 @@ class Fotografia_localidad(models.Model):
             "ruta": self.imagen.url,
             "descripcion": self.descripcion,
             "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
         }
 
 class Tipo_contenido(models.Model):
@@ -65,6 +68,7 @@ class Tipo_contenido(models.Model):
             "id": self.id,
             "nombre": self.nombre,
             "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
         }
 
 class Contenido(models.Model):
@@ -94,6 +98,7 @@ class Contenido(models.Model):
             "email": self.email,
             "web": self.web,
             "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
         }
 
 class Fotografia_contenido(models.Model):
@@ -113,4 +118,5 @@ class Fotografia_contenido(models.Model):
             "ruta": self.imagen.url,
             "descripcion": self.descripcion,
             "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
         }
