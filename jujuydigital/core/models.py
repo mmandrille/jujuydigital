@@ -71,6 +71,26 @@ class Tipo_contenido(models.Model):
             "activo": str(self.activo),
         }
 
+class Fotografia_tipo_contenido(models.Model):
+    tipo_contenido  = models.ForeignKey(Tipo_contenido, on_delete=models.CASCADE, related_name='fotografias_tipos_contenidos')
+    nombre = models.CharField(max_length=150, unique=True)
+    descripcion = HTMLField(blank=True, null=True)
+    imagen = models.FileField(upload_to='fotografias')
+    mod_time = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nombre
+    def as_dict(self):
+        return {
+            "id_tipo_contenido": self.tipo_contenido.id,
+            "id_fotografia": self.id,
+            "nombre": self.nombre,
+            "ruta": self.imagen.url,
+            "descripcion": self.descripcion,
+            "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
+        }
+
 class Contenido(models.Model):
     localidad  = models.ForeignKey(Localidad, on_delete=models.CASCADE, related_name='contenidos')
     tipo_contenido  = models.ForeignKey(Tipo_contenido, on_delete=models.CASCADE, related_name='contenidos')

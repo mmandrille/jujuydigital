@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
 #Imports del proyecto
-from .models import Provincia, Localidad, Tipo_contenido, Fotografia_localidad, Contenido, Fotografia_contenido
+from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Fotografia_tipo_contenido, Contenido, Fotografia_contenido
 
 # Create your views here.
 def ws_provincias(request, mod_date=None, mod_time=None):
@@ -35,6 +35,13 @@ def ws_tipo_contenidos(request, mod_date=None, mod_time=None):
         tipo_contenidos = tipo_contenidos.filter(mod_time__date__gte = mod_date, mod_time__time__gte = mod_time)
     tipo_contenidos = [func.as_dict() for func in tipo_contenidos]
     return HttpResponse(json.dumps({"registros_ws": len(tipo_contenidos), "registros_tabla": Tipo_contenido.objects.all().count(), "tipo_contenidos": tipo_contenidos}), content_type='application/json')
+
+def ws_fotografias_tipo_contenidos(request, mod_date=None, mod_time=None):
+    fotografias_tipo_contenidos = Fotografia_tipo_contenido.objects.all()
+    if mod_date is not None:
+        fotografias_tipo_contenidos = fotografias_tipo_contenidos.filter(mod_time__date__gte = mod_date, mod_time__time__gte = mod_time)
+    fotografias_tipo_contenidos = [func.as_dict() for func in fotografias_tipo_contenidos]
+    return HttpResponse(json.dumps({"registros_ws": len(fotografias_tipo_contenidos), "registros_tabla": Fotografia_tipo_contenido.objects.all().count(), "fotografias_tipo_contenidos": fotografias_tipo_contenidos}), content_type='application/json')
 
 def ws_contenidos(request, mod_date=None, mod_time=None):
     contenidos = Contenido.objects.all()

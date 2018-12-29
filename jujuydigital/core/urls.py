@@ -17,7 +17,10 @@ urlpatterns = [
     url(r'ws/tipo_contenidos/(?P<mod_date>\d{4}-\d{2}-\d{2})-(?P<mod_time>\d{2}:\d{2})/$', views.ws_tipo_contenidos, name='ws_tipo_contenidos'),
     url(r'ws/tipo_contenidos/$', views.ws_tipo_contenidos, name='ws_tipo_contenidos'),
     
-    
+
+    url(r'ws/fotografias_tipo_contenidos/(?P<mod_date>\d{4}-\d{2}-\d{2})-(?P<mod_time>\d{2}:\d{2})/$', views.ws_fotografias_tipo_contenidos, name='ws_fotografias_tipo_contenidos'),
+    url(r'ws/fotografias_tipo_contenidos/$', views.ws_fotografias_tipo_contenidos, name='ws_fotografias_tipo_contenidos'),
+
     url(r'ws/contenidos/(?P<mod_date>\d{4}-\d{2}-\d{2})-(?P<mod_time>\d{2}:\d{2})/$', views.ws_contenidos, name='ws_contenidos'),
     url(r'ws/contenidos/$', views.ws_contenidos, name='ws_contenidos'),
     

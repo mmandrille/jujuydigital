@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 #Incluimos modelos
-from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Contenido, Fotografia_contenido
+from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Fotografia_tipo_contenido, Contenido, Fotografia_contenido
 
 #Definimos inlines
 #Localidad
@@ -11,6 +11,15 @@ class FotoLocalidad(admin.TabularInline):
 class LocalidadAdmin(admin.ModelAdmin):
     inlines = [
         FotoLocalidad,
+    ]
+
+#Tipo_Contenidos
+class FotoTipoContenido(admin.TabularInline):
+    model = Fotografia_tipo_contenido
+
+class TipoContenidoAdmin(admin.ModelAdmin):
+    inlines = [
+        FotoTipoContenido,
     ]
 
 #Contenidos
@@ -25,5 +34,5 @@ class ContenidoAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Provincia)
 admin.site.register(Localidad, LocalidadAdmin)
-admin.site.register(Tipo_contenido)
+admin.site.register(Tipo_contenido, TipoContenidoAdmin)
 admin.site.register(Contenido, ContenidoAdmin)
