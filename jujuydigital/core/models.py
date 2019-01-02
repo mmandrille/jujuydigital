@@ -22,8 +22,8 @@ class Provincia(models.Model):
 class Localidad(models.Model):
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE, related_name='localidades')
     nombre = models.CharField(max_length=150, unique=True)
-    #xpos VARCHAR(21)
-    #ypos VARCHAR(21)
+    gpos_lat = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
+    gpos_long = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     mod_time = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(default=True)
     def __str__(self):
@@ -33,6 +33,8 @@ class Localidad(models.Model):
             "id_provincia": self.provincia.id,
             "id_localidad": self.id,
             "nombre": self.nombre,
+            "gpos_lat": str(self.gpos_lat),
+            "gpos_long": str(self.gpos_long),
             "mod_time": str(self.mod_time),
             "activo": str(self.activo),
         }
@@ -100,9 +102,9 @@ class Contenido(models.Model):
     telefono = models.CharField('Telefono', max_length=20, blank=True, null=True)
     email = models.EmailField('Correo Electronico', blank=True, null=True)
     web = models.URLField('Web', blank=True, null=True)
+    gpos_lat = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
+    gpos_long = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     mod_time = models.DateTimeField(auto_now=True)
-    #xpos VARCHAR(21)
-    #ypos VARCHAR(21)
     activo = models.BooleanField(default=True)
     def __str__(self):
         return self.nombre
@@ -117,6 +119,8 @@ class Contenido(models.Model):
             "telefono": self.telefono,
             "email": self.email,
             "web": self.web,
+            "gpos_lat": str(self.gpos_lat),
+            "gpos_long": str(self.gpos_long),
             "mod_time": str(self.mod_time),
             "activo": str(self.activo),
         }
