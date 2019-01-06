@@ -93,9 +93,24 @@ class Fotografia_tipo_contenido(models.Model):
             "activo": str(self.activo),
         }
 
+class Tipo_render(models.Model):
+    nombre = models.CharField(max_length=150, unique=True)
+    mod_time = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nombre
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
+        }
+
 class Contenido(models.Model):
     localidad  = models.ForeignKey(Localidad, on_delete=models.CASCADE, related_name='contenidos')
     tipo_contenido  = models.ForeignKey(Tipo_contenido, on_delete=models.CASCADE, related_name='contenidos')
+    tipo_render = models.ForeignKey(Tipo_render, on_delete=models.CASCADE, related_name='contenidos')
     nombre = models.CharField(max_length=150, unique=True)
     descripcion = HTMLField(blank=True, null=True)
     direccion = models.CharField('Direccion', max_length=200, blank=True, null=True)
@@ -104,6 +119,8 @@ class Contenido(models.Model):
     web = models.URLField('Web', blank=True, null=True)
     gpos_lat = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     gpos_long = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
+    fecha_inicio = models.DateTimeField(default=datetime.datetime.now, null=True, blank=True)
+    fecha_fin = models.DateTimeField(default=datetime.datetime.now, null=True, blank=True)
     mod_time = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(default=True)
     def __str__(self):
@@ -111,6 +128,7 @@ class Contenido(models.Model):
     def as_dict(self):
         return {
             "id_localidad": self.localidad.id,
+            "tipo_render": self.tipo_render.id,
             "id_tipo_contenido": self.tipo_contenido.id,
             "id_contenido": self.id,
             "nombre": self.nombre,
@@ -121,6 +139,8 @@ class Contenido(models.Model):
             "web": self.web,
             "gpos_lat": str(self.gpos_lat),
             "gpos_long": str(self.gpos_long),
+            "fecha_inicio": str(self.fecha_inicio),
+            "fecha_fin": str(self.fecha_fin),
             "mod_time": str(self.mod_time),
             "activo": str(self.activo),
         }
