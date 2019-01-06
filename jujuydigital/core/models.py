@@ -110,6 +110,7 @@ class Tipo_render(models.Model):
 class Contenido(models.Model):
     localidad  = models.ForeignKey(Localidad, on_delete=models.CASCADE, related_name='contenidos')
     tipo_contenido  = models.ForeignKey(Tipo_contenido, on_delete=models.CASCADE, related_name='contenidos')
+    estrellas = models.IntegerField(default=1, blank=True, null=True)
     tipo_render = models.ForeignKey(Tipo_render, on_delete=models.CASCADE, related_name='contenidos')
     nombre = models.CharField(max_length=150, unique=True)
     descripcion = HTMLField(blank=True, null=True)
@@ -133,6 +134,7 @@ class Contenido(models.Model):
             "id_contenido": self.id,
             "nombre": self.nombre,
             "descripcion": self.descripcion,
+            "estrellas": self.estrellas,
             "direccion": self.direccion,
             "telefono": self.telefono,
             "email": self.email,
