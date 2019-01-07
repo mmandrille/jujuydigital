@@ -5,6 +5,8 @@ from . import views
 app_name = 'core'
 urlpatterns = [
     #Web Services
+    url(r'^$', views.home, name='home'),
+
     url(r'ws/provincias/(?P<mod_date>\d{4}-\d{2}-\d{2})-(?P<mod_time>\d{2}:\d{2})/$', views.ws_provincias, name='ws_provincias'),
     url(r'ws/provincias/$', views.ws_provincias, name='ws_provincias'),
 
@@ -28,4 +30,6 @@ urlpatterns = [
     
     url(r'ws/fotografias_contenidos/(?P<mod_date>\d{4}-\d{2}-\d{2})-(?P<mod_time>\d{2}:\d{2})/$', views.ws_fotografias_contenidos, name='ws_fotografias_contenidos'),
     url(r'ws/fotografias_contenidos/$', views.ws_fotografias_contenidos, name='ws_fotografias_contenidos'),
+
+    url(r'upload/csv/contenidos$', views.upload_csv_contenidos, name='upload_csv_contenidos'),
 ]

@@ -112,7 +112,7 @@ class Contenido(models.Model):
     tipo_contenido  = models.ForeignKey(Tipo_contenido, on_delete=models.CASCADE, related_name='contenidos')
     estrellas = models.IntegerField(default=1, blank=True, null=True)
     tipo_render = models.ForeignKey(Tipo_render, on_delete=models.CASCADE, related_name='contenidos')
-    nombre = models.CharField(max_length=150, unique=True)
+    nombre = models.CharField(max_length=150)
     descripcion = HTMLField(blank=True, null=True)
     direccion = models.CharField('Direccion', max_length=200, blank=True, null=True)
     telefono = models.CharField('Telefono', max_length=20, blank=True, null=True)
@@ -125,11 +125,11 @@ class Contenido(models.Model):
     mod_time = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(default=True)
     def __str__(self):
-        return self.nombre
+        return (self.nombre + ' de ' + self.localidad.nombre)
     def as_dict(self):
         return {
             "id_localidad": self.localidad.id,
-            "tipo_render": self.tipo_render.id,
+            "id_tipo_render": self.tipo_render.id,
             "id_tipo_contenido": self.tipo_contenido.id,
             "id_contenido": self.id,
             "nombre": self.nombre,
