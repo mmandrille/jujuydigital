@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 #Incluimos modelos
-from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Fotografia_tipo_contenido, Tipo_render, Contenido, Fotografia_contenido
+from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Subtipo_contenido, Fotografia_tipo_contenido, Tipo_render, Contenido, Fotografia_contenido
 
 #Definimos inlines
 #Localidad
@@ -35,5 +35,6 @@ class ContenidoAdmin(admin.ModelAdmin):
 admin.site.register(Provincia)
 admin.site.register(Localidad, LocalidadAdmin)
 admin.site.register(Tipo_contenido, TipoContenidoAdmin)
+admin.site.register(Subtipo_contenido)
 admin.site.register(Tipo_render)
 admin.site.register(Contenido, ContenidoAdmin)

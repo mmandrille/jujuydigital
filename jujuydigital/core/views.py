@@ -9,7 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 #Imports del proyecto
 import core.urls
-from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Tipo_render, Fotografia_tipo_contenido, Contenido, Fotografia_contenido
+from .models import Provincia, Localidad, Fotografia_localidad, Tipo_contenido, Subtipo_contenido, Tipo_render, Fotografia_tipo_contenido, Contenido, Fotografia_contenido
 
 # Create your views here.
 def home(request):
@@ -45,6 +45,13 @@ def ws_tipo_contenidos(request, mod_date=None, mod_time=None):
         tipo_contenidos = tipo_contenidos.filter(mod_time__date__gte = mod_date, mod_time__time__gte = mod_time)
     tipo_contenidos = [func.as_dict() for func in tipo_contenidos]
     return HttpResponse(json.dumps({"registros_ws": len(tipo_contenidos), "registros_tabla": Tipo_contenido.objects.all().count(), "tipo_contenidos": tipo_contenidos}), content_type='application/json')
+
+def ws_subtipo_contenidos(request, mod_date=None, mod_time=None):
+    subtipo_contenidos = Subtipo_contenido.objects.all()
+    if mod_date is not None:
+        subtipo_contenidos = subtipo_contenidos.filter(mod_time__date__gte = mod_date, mod_time__time__gte = mod_time)
+    subtipo_contenidos = [func.as_dict() for func in subtipo_contenidos]
+    return HttpResponse(json.dumps({"registros_ws": len(subtipo_contenidos), "registros_tabla": Subtipo_contenido.objects.all().count(), "tipo_contenidos": subtipo_contenidos}), content_type='application/json')
 
 def ws_tipo_render(request, mod_date=None, mod_time=None):
     tipo_render = Tipo_render.objects.all()
@@ -123,41 +130,49 @@ def upload_csv_contenidos(request):
                     tipo_contenido.nombre = sline[2]
                     tipo_contenido.save()
                 contenido.tipo_contenido = tipo_contenido
-            #Tipo Render
+            #Tipo Contenido
             if sline[3]:
-                try: tipo_render = Tipo_render.objects.get(nombre=sline[3])
+                try: subtipo_contenido = Subtipo_contenido.objects.get(nombre=sline[3])
+                except Subtipo_contenido.DoesNotExist:
+                    subtipo_contenido = Subtipo_contenido()
+                    subtipo_contenido.nombre = sline[3]
+                    subtipo_contenido.save()
+                contenido.subtipo_contenido = subtipo_contenido
+            #Tipo Render
+            if sline[4]:
+                try: tipo_render = Tipo_render.objects.get(nombre=sline[4])
                 except Tipo_render.DoesNotExist:
                     tipo_render = Tipo_render()
-                    tipo_render.nombre = sline[3]
+                    tipo_render.nombre = sline[4]
                     tipo_render.save()
                 contenido.tipo_render = tipo_render
             #Estrellas
-            if sline[4]:
-                contenido.estrellas = sline[4]
-            #Nombre
             if sline[5]:
-                contenido.nombre = sline[5]
-            #Direccion
+                contenido.estrellas = sline[5]
+            #Nombre
             if sline[6]:
-                contenido.direccion = sline[6]            
-            #Web
+                contenido.nombre = sline[6]
+            #Direccion
             if sline[7]:
-                contenido.web = sline[7]            
-            #Correo
+                contenido.direccion = sline[7]            
+            #Web
             if sline[8]:
-                contenido.email = sline[8]
-            #Telefono
+                contenido.web = sline[8]            
+            #Correo
             if sline[9]:
-                contenido.telefono = sline[9]            
-            #Descripcion
+                contenido.email = sline[9]
+            #Telefono
             if sline[10]:
-                contenido.descripcion = sline[10]
-            #Fecha de Inicio
+                contenido.telefono = sline[10]            
+            #Descripcion
             if sline[11]:
-                contenido.fecha_inicio = sline[11]
-            #Fecha de Fin
+                contenido.descripcion = sline[11]
+            #Fecha de Inicio
             if sline[12]:
-                contenido.fecha_fin = sline[12]
+                contenido.fecha_inicio = sline[12]
+            #Fecha de Fin
+            if sline[13]:
+                contenido.fecha_fin = sline[13]
             #Una vez preparado, si aun no existe, lo creamos.
             try: 
                 contenido =  Contenido.objects.get(nombre=contenido.nombre, localidad=contenido.localidad)
