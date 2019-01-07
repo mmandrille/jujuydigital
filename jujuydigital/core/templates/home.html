@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>Estas son las URL Disponibles:</p>
+    <ul>
+        <li> <a href="/admin">ADMIN SITE</a></li>
+        {% for key, value in dict_url.items %}
+            <li><a href="{{ value }}">{{ key }}</a></li>
+        {% endfor %}
+    </ul>    
+{% endblock %}
