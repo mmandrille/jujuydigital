@@ -59,7 +59,7 @@ class Fotografia_localidad(models.Model):
             "activo": str(self.activo),
         }
 
-class Tipo_contenido(models.Model):
+class Tipo_render(models.Model):
     nombre = models.CharField(max_length=150, unique=True)
     mod_time = models.DateTimeField(auto_now=True)
     activo = models.BooleanField(default=True)
@@ -68,6 +68,22 @@ class Tipo_contenido(models.Model):
     def as_dict(self):
         return {
             "id": self.id,
+            "nombre": self.nombre,
+            "mod_time": str(self.mod_time),
+            "activo": str(self.activo),
+        }
+
+class Tipo_contenido(models.Model):
+    nombre = models.CharField(max_length=150, unique=True)
+    tipo_render = models.ForeignKey(Tipo_render, on_delete=models.CASCADE, related_name='tipo_contenidos')
+    mod_time = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
+    def __str__(self):
+        return self.nombre
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "id_tipo_render": self.tipo_render.id,
             "nombre": self.nombre,
             "mod_time": str(self.mod_time),
             "activo": str(self.activo),
@@ -107,26 +123,11 @@ class Subtipo_contenido(models.Model):
             "activo": str(self.activo),
         }
 
-class Tipo_render(models.Model):
-    nombre = models.CharField(max_length=150, unique=True)
-    mod_time = models.DateTimeField(auto_now=True)
-    activo = models.BooleanField(default=True)
-    def __str__(self):
-        return self.nombre
-    def as_dict(self):
-        return {
-            "id": self.id,
-            "nombre": self.nombre,
-            "mod_time": str(self.mod_time),
-            "activo": str(self.activo),
-        }
-
 class Contenido(models.Model):
     localidad  = models.ForeignKey(Localidad, on_delete=models.CASCADE, related_name='contenidos')
     tipo_contenido  = models.ForeignKey(Tipo_contenido, default=1, on_delete=models.CASCADE, related_name='contenidos')
     subtipo_contenido  = models.ForeignKey(Subtipo_contenido, default=1, on_delete=models.CASCADE, related_name='contenidos')
     estrellas = models.IntegerField(default=1, blank=True, null=True)
-    tipo_render = models.ForeignKey(Tipo_render, on_delete=models.CASCADE, related_name='contenidos')
     nombre = models.CharField(max_length=150)
     descripcion = HTMLField(blank=True, null=True)
     direccion = models.CharField('Direccion', max_length=200, blank=True, null=True)
@@ -144,7 +145,6 @@ class Contenido(models.Model):
     def as_dict(self):
         return {
             "id_localidad": self.localidad.id,
-            "id_tipo_render": self.tipo_render.id,
             "id_tipo_contenido": self.tipo_contenido.id,
             "id_subtipo_contenido": self.subtipo_contenido.id,
             "id_contenido": self.id,
